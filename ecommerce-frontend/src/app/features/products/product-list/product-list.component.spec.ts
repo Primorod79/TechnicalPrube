@@ -85,7 +85,7 @@ describe('ProductListComponent', () => {
     const mockProducts = {
       items: [],
       totalCount: 0,
-      pageNumber: 1,
+      page: 1,
       pageSize: 12,
       totalPages: 0
     };
@@ -158,7 +158,7 @@ describe('ProductListComponent', () => {
     const mockProducts = {
       items: [],
       totalCount: 0,
-      pageNumber: 1,
+      page: 1,
       pageSize: 12,
       totalPages: 0
     };

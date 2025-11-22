@@ -23,7 +23,24 @@ export const routes: Routes = [
   {
     path: 'products',
     canActivate: [authGuard],
-    loadComponent: () => import('./features/products/product-list/product-list.component').then(m => m.ProductListComponent)
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('./features/products/product-list/product-list.component').then(m => m.ProductListComponent)
+      },
+      {
+        path: 'new',
+        loadComponent: () => import('./features/products/product-form/product-form.component').then(m => m.ProductFormComponent)
+      },
+      {
+        path: 'edit/:id',
+        loadComponent: () => import('./features/products/product-form/product-form.component').then(m => m.ProductFormComponent)
+      },
+      {
+        path: ':id',
+        loadComponent: () => import('./features/products/product-detail/product-detail.component').then(m => m.ProductDetailComponent)
+      }
+    ]
   },
   {
     path: '**',

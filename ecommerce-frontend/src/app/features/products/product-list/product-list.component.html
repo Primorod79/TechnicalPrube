@@ -2,10 +2,10 @@
   <!-- Header -->
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>Products</h2>
-    <button 
-      *ngIf="authService.isAdmin" 
+    <button
+      *ngIf="authService.isAdmin"
       class="btn btn-primary"
-      routerLink="/products/create">
+      routerLink="/products/new">
       <i class="bi bi-plus-circle"></i> Add Product
     </button>
   </div>
@@ -15,16 +15,16 @@
     <div class="card-body">
       <div class="row g-3">
         <div class="col-md-5">
-          <input 
-            type="text" 
-            class="form-control" 
+          <input
+            type="text"
+            class="form-control"
             placeholder="Search products..."
             [(ngModel)]="searchTerm"
             (keyup.enter)="onSearch()">
         </div>
         <div class="col-md-4">
-          <select 
-            class="form-select" 
+          <select
+            class="form-select"
             [(ngModel)]="selectedCategoryId"
             (change)="onCategoryChange()">
             <option [value]="undefined">All Categories</option>
@@ -54,9 +54,9 @@
   <div *ngIf="!loading && products.length > 0" class="row g-4">
     <div *ngFor="let product of products" class="col-md-6 col-lg-4 col-xl-3">
       <div class="card h-100 shadow-sm">
-        <img 
-          [src]="product.imageUrl || 'https://via.placeholder.com/300x200?text=No+Image'" 
-          class="card-img-top" 
+        <img
+          [src]="product.imageUrl || 'https://via.placeholder.com/300x200?text=No+Image'"
+          class="card-img-top"
           [alt]="product.name"
           style="height: 200px; object-fit: cover;">
         <div class="card-body d-flex flex-column">
@@ -76,18 +76,18 @@
         </div>
         <div class="card-footer bg-transparent">
           <div class="d-flex gap-2">
-            <button 
+            <button
               class="btn btn-sm btn-outline-primary flex-fill"
               [routerLink]="['/products', product.id]">
               View
             </button>
-            <button 
+            <button
               *ngIf="authService.isAdmin"
               class="btn btn-sm btn-outline-warning"
               [routerLink]="['/products/edit', product.id]">
               Edit
             </button>
-            <button 
+            <button
               *ngIf="authService.isAdmin"
               class="btn btn-sm btn-outline-danger"
               (click)="deleteProduct(product.id)">
@@ -111,9 +111,9 @@
       <li class="page-item" [class.disabled]="currentPage === 1">
         <button class="page-link" (click)="onPageChange(currentPage - 1)">Previous</button>
       </li>
-      <li 
-        *ngFor="let page of pages" 
-        class="page-item" 
+      <li
+        *ngFor="let page of pages"
+        class="page-item"
         [class.active]="page === currentPage">
         <button class="page-link" (click)="onPageChange(page)">{{ page }}</button>
       </li>

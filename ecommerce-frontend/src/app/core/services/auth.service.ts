@@ -40,10 +40,13 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.apiUrl}/auth/login`, credentials)
       .pipe(
         tap(response => {
+          console.log('Login response:', response);
           if (response.token && response.user) {
             localStorage.setItem('token', response.token);
             localStorage.setItem('currentUser', JSON.stringify(response.user));
             this.currentUserSubject.next(response.user);
+            console.log('User set:', response.user);
+            console.log('Token stored:', !!localStorage.getItem('token'));
           }
         })
       );

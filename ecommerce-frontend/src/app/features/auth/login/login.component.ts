@@ -40,17 +40,15 @@ export class LoginComponent {
     this.loading = true;
     this.authService.login(this.loginForm.value).subscribe({
       next: (response) => {
-        this.toastr.success('Login successful!', 'Success');
         this.loading = false;
+        this.toastr.success('Login successful!', 'Success');
         
         // Redirect based on user role
-        setTimeout(() => {
-          if (this.authService.isAdmin) {
-            this.router.navigate(['/products']);
-          } else {
-            this.router.navigate(['/']);
-          }
-        }, 500);
+        if (this.authService.isAdmin) {
+          this.router.navigate(['/products']);
+        } else {
+          this.router.navigate(['/']);
+        }
       },
       error: (error) => {
         this.toastr.error(error.error?.message || error.message || 'Login failed', 'Error');

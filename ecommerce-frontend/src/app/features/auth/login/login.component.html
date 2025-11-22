@@ -4,13 +4,13 @@
       <div class="card shadow">
         <div class="card-body p-4">
           <h2 class="card-title text-center mb-4">Login</h2>
-          
+
           <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
-              <input 
-                type="email" 
-                class="form-control" 
+              <input
+                type="email"
+                class="form-control"
                 id="email"
                 formControlName="email"
                 [class.is-invalid]="f['email'].invalid && f['email'].touched"
@@ -23,9 +23,9 @@
 
             <div class="mb-3">
               <label for="password" class="form-label">Password</label>
-              <input 
-                type="password" 
-                class="form-control" 
+              <input
+                type="password"
+                class="form-control"
                 id="password"
                 formControlName="password"
                 [class.is-invalid]="f['password'].invalid && f['password'].touched"
@@ -36,8 +36,8 @@
               </div>
             </div>
 
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               class="btn btn-primary w-100"
               [disabled]="loading">
               <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
@@ -47,7 +47,7 @@
 
           <div class="text-center mt-3">
             <p class="mb-0">
-              Don't have an account? 
+              Don't have an account?
               <a routerLink="/auth/register" class="text-decoration-none">Register here</a>
             </p>
           </div>

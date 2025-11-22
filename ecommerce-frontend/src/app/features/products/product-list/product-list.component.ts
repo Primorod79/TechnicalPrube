@@ -21,7 +21,7 @@ export class ProductListComponent implements OnInit {
   loading = false;
   searchTerm = '';
   selectedCategoryId?: number;
-  
+
   // Pagination
   currentPage = 1;
   pageSize = 12;

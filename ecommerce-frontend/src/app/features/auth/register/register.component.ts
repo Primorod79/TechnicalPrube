@@ -48,7 +48,7 @@ export class RegisterComponent {
 
     this.loading = true;
     const { confirmPassword, ...userData } = this.registerForm.value;
-    
+
     this.authService.register(userData).subscribe({
       next: (response) => {
         this.toastr.success('Registration successful!', 'Success');

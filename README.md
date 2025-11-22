@@ -1,90 +1,83 @@
 # E-Commerce Technical Test
 
-Sistema completo de e-commerce desarrollado con **Angular 18** (Frontend), **.NET 8** (Backend API) y **PostgreSQL** (Base de datos), desplegado en **Railway**.
+Complete e-commerce system developed with **Angular 18** (Frontend), **.NET 8** (Backend API), and **PostgreSQL** (Database), deployed on **Railway**.
 
-## 🚀 Tecnologías Utilizadas
+## 🚀 Technologies Used
 
 ### Frontend
-- **Angular 18.2.11** - Framework web con componentes standalone
-- **Bootstrap 5.3** - Framework CSS para diseño responsive
-- **Bootstrap Icons** - Librería de iconos
-- **ngx-toastr** - Notificaciones toast
-- **RxJS** - Programación reactiva
+- **Angular 18.2.11** - Web framework with standalone components
+- **Bootstrap 5.3** - CSS framework for responsive design
+- **Bootstrap Icons** - Icon library
+- **ngx-toastr** - Toast notifications
+- **RxJS** - Reactive programming
 
 ### Backend
 - **.NET 8** - Web API
 - **Entity Framework Core** - ORM
-- **JWT Authentication** - Sistema de autenticación
+- **JWT Authentication** - Authentication system
 
-### Base de Datos
-- **PostgreSQL** - Base de datos relacional (Railway)
+### Database
+- **PostgreSQL** - Relational database (Railway)
 
 ### DevOps
-- **Docker** - Contenedorización
-- **Railway** - Plataforma de despliegue
-- **Nginx** - Servidor web para frontend
-- **GitHub** - Control de versiones
+- **Docker** - Containerization
+- **Railway** - Deployment platform
+- **Nginx** - Web server for frontend
+- **GitHub** - Version control
 
-## 📦 Estructura del Proyecto
+## 📦 Project Structure
 
 ```
 PRUEBA/
-├── ecommerce-frontend/          # Aplicación Angular
+├── ecommerce-frontend/          # Angular Application
 │   ├── src/
 │   │   ├── app/
-│   │   │   ├── core/           # Servicios, guards, interceptors
-│   │   │   ├── features/       # Componentes de características
+│   │   │   ├── core/           # Services, guards, interceptors
+│   │   │   ├── features/       # Feature components
 │   │   │   │   ├── auth/       # Login, Register
-│   │   │   │   ├── products/   # CRUD de productos
-│   │   │   │   └── home/       # Página principal
-│   │   │   ├── models/         # Interfaces TypeScript
-│   │   │   └── shared/         # Componentes compartidos
-│   │   └── environments/       # Configuración de entornos
-├── Dockerfile                   # Configuración Docker
-├── nginx.conf                   # Configuración Nginx
-└── railway.json                 # Configuración Railway
+│   │   │   │   ├── products/   # Product CRUD
+│   │   │   │   └── home/       # Home page
+│   │   │   ├── models/         # TypeScript interfaces
+│   │   │   └── shared/         # Shared components
+│   │   └── environments/       # Environment configuration
+├── Dockerfile                   # Docker configuration
+├── nginx.conf                   # Nginx configuration
+└── railway.json                 # Railway configuration
 ```
 
-## 🌐 Despliegue en Railway
+## 🌐 Railway Deployment
 
-### URLs de Producción
+### Production URLs
 - **Frontend**: https://technicalprube-production.up.railway.app
 - **API Backend**: https://technicalprubеapi-production.up.railway.app/api
-- **Base de Datos**: PostgreSQL en Railway (puerto 29162)
+- **Database**: PostgreSQL on Railway (port 29162)
 
-### Configuración de Railway
+### Railway Configuration
 
-#### 1. Base de Datos PostgreSQL
-Se creó un servicio de PostgreSQL en Railway con las siguientes credenciales:
-```
-Host: switchback.proxy.rlwy.net
-Port: 29162
-Database: railway
-User: postgres
-Password: rzzfKClsgszBFmQgQccWgIRFl5ubCYpc
-```
+#### 1. PostgreSQL Database
+A PostgreSQL service was created on Railway (credentials are configured as environment variables in Railway dashboard)
 
 #### 2. Backend API (.NET 8)
-1. Crear nuevo servicio en Railway
-2. Conectar con repositorio GitHub
-3. Variables de entorno configuradas:
-   - `ConnectionStrings__DefaultConnection`: Connection string de PostgreSQL
-   - `JWT__SecretKey`: Clave secreta para tokens
-   - `JWT__Issuer`: Emisor del token
-   - `JWT__Audience`: Audiencia del token
+1. Create new service in Railway
+2. Connect with GitHub repository
+3. Configure environment variables:
+   - `ConnectionStrings__DefaultConnection`: PostgreSQL connection string
+   - `JWT__SecretKey`: Secret key for tokens
+   - `JWT__Issuer`: Token issuer
+   - `JWT__Audience`: Token audience
 
 #### 3. Frontend (Angular)
-1. Crear nuevo servicio en Railway
-2. Conectar con el mismo repositorio
-3. Railway detecta automáticamente el `Dockerfile`
-4. Variables de configuración:
-   - `PORT`: 8080 (requerido por Railway)
+1. Create new service in Railway
+2. Connect with the same repository
+3. Railway automatically detects the `Dockerfile`
+4. Configuration variables:
+   - `PORT`: 8080 (required by Railway)
    - Build Command: `docker build`
-   - Dockerfile Path: `Dockerfile` (raíz del proyecto)
+   - Dockerfile Path: `Dockerfile` (project root)
 
-### Características del Despliegue
+### Deployment Features
 
-**Dockerfile Multi-Stage:**
+**Multi-Stage Dockerfile:**
 ```dockerfile
 # Stage 1: Build
 FROM node:20-alpine AS build
@@ -102,53 +95,53 @@ CMD ["nginx", "-g", "daemon off;"]
 ```
 
 **Nginx Configuration:**
-- Puerto 8080 (requerimiento de Railway)
-- SPA routing con `try_files`
-- Compresión gzip habilitada
-- Cache para archivos estáticos
+- Port 8080 (Railway requirement)
+- SPA routing with `try_files`
+- Gzip compression enabled
+- Cache for static assets
 
-## 💻 Ejecución en Local
+## 💻 Running Locally
 
-### ⚠️ Limitación Importante
-**El proyecto NO puede ejecutarse completamente en local** porque la base de datos PostgreSQL está desplegada en Railway y solo es accesible desde servicios autorizados. Para desarrollo local sería necesario:
-- Crear una instancia local de PostgreSQL
-- Actualizar las cadenas de conexión del backend
-- Modificar las URLs del API en `environment.development.ts`
+### ⚠️ Important Limitation
+**The project CANNOT run completely locally** because the PostgreSQL database is deployed on Railway and is only accessible from authorized services. For local development, you would need to:
+- Create a local PostgreSQL instance
+- Update backend connection strings
+- Modify API URLs in `environment.development.ts`
 
-### Requisitos Previos
-- **Node.js** 20.x o superior
-- **npm** 10.x o superior
+### Prerequisites
+- **Node.js** 20.x or higher
+- **npm** 10.x or higher
 - **Angular CLI** 18.x
 - **.NET SDK** 8.0
-- **PostgreSQL** (para backend local)
+- **PostgreSQL** (for local backend)
 
-### Instalación del Frontend
+### Frontend Installation
 
 ```bash
-# Clonar el repositorio
+# Clone the repository
 git clone https://github.com/Primorod79/TechnicalPrube.git
 cd TechnicalPrube/ecommerce-frontend
 
-# Instalar dependencias
+# Install dependencies
 npm install
 
-# Ejecutar en modo desarrollo (conectará al API de Railway)
+# Run in development mode (will connect to Railway API)
 ng serve
 
-# La aplicación estará disponible en http://localhost:4200
+# The application will be available at http://localhost:4200
 ```
 
-### Variables de Entorno
+### Environment Variables
 
-**Desarrollo** (`src/environments/environment.ts`):
+**Development** (`src/environments/environment.ts`):
 ```typescript
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:5000/api' // API local (no funcional sin DB local)
+  apiUrl: 'http://localhost:5000/api' // Local API (not functional without local DB)
 };
 ```
 
-**Producción** (`src/environments/environment.production.ts`):
+**Production** (`src/environments/environment.production.ts`):
 ```typescript
 export const environment = {
   production: true,
@@ -156,45 +149,45 @@ export const environment = {
 };
 ```
 
-## 🧪 Ejecución de Pruebas Unitarias
+## 🧪 Running Unit Tests
 
-El proyecto incluye **38 pruebas unitarias** usando **Karma** y **Jasmine**.
+The project includes **38 unit tests** using **Karma** and **Jasmine**.
 
-### Ejecutar Todas las Pruebas
+### Run All Tests
 
 ```bash
 cd ecommerce-frontend
 
-# Ejecutar pruebas en modo watch
+# Run tests in watch mode
 npm test
 
-# Ejecutar pruebas una sola vez
+# Run tests once
 npm run test -- --watch=false
 
-# Ejecutar con reporte de cobertura
+# Run with coverage report
 npm run test -- --code-coverage
 ```
 
-### Pruebas Incluidas
+### Included Tests
 
-**Servicios:**
-- `auth.service.spec.ts` - Autenticación, login, registro, logout
-- `product.service.spec.ts` - CRUD de productos, paginación
-- `category.service.spec.ts` - Gestión de categorías
+**Services:**
+- `auth.service.spec.ts` - Authentication, login, register, logout
+- `product.service.spec.ts` - Product CRUD, pagination
+- `category.service.spec.ts` - Category management
 
-**Componentes:**
-- `login.component.spec.ts` - Validación de formulario de login
-- `register.component.spec.ts` - Registro de usuarios
-- `product-list.component.spec.ts` - Listado, búsqueda, paginación
-- `product-form.component.spec.ts` - Creación/edición de productos
-- `product-detail.component.spec.ts` - Detalle de producto
-- `home.component.spec.ts` - Página principal
-- `navbar.component.spec.ts` - Barra de navegación
+**Components:**
+- `login.component.spec.ts` - Login form validation
+- `register.component.spec.ts` - User registration
+- `product-list.component.spec.ts` - Listing, search, pagination
+- `product-form.component.spec.ts` - Product creation/editing
+- `product-detail.component.spec.ts` - Product detail
+- `home.component.spec.ts` - Home page
+- `navbar.component.spec.ts` - Navigation bar
 
 **Guards:**
-- `auth.guard.spec.ts` - Protección de rutas
+- `auth.guard.spec.ts` - Route protection
 
-### Estructura de Pruebas
+### Test Structure
 
 ```typescript
 // Ejemplo: auth.service.spec.ts
@@ -217,40 +210,40 @@ describe('AuthService', () => {
 });
 ```
 
-## 🎯 Funcionalidades Implementadas
+## 🎯 Implemented Features
 
-### Autenticación
-- ✅ Registro de usuarios
-- ✅ Login con JWT
+### Authentication
+- ✅ User registration
+- ✅ Login with JWT
 - ✅ Logout
-- ✅ Guard para rutas protegidas
-- ✅ Interceptor para agregar JWT a requests
-- ✅ Manejo de errores 401 (Unauthorized)
+- ✅ Guard for protected routes
+- ✅ Interceptor to add JWT to requests
+- ✅ 401 (Unauthorized) error handling
 
-### Productos
-- ✅ Listado con paginación
-- ✅ Búsqueda por nombre
-- ✅ Filtro por categoría
-- ✅ Crear producto (solo admin)
-- ✅ Editar producto (solo admin)
-- ✅ Eliminar producto (solo admin)
-- ✅ Ver detalle de producto
+### Products
+- ✅ Listing with pagination
+- ✅ Search by name
+- ✅ Filter by category
+- ✅ Create product (admin only)
+- ✅ Edit product (admin only)
+- ✅ Delete product (admin only)
+- ✅ View product details
 
-### Categorías
-- ✅ CRUD completo (solo admin)
-- ✅ Listado en filtros
+### Categories
+- ✅ Complete CRUD (admin only)
+- ✅ Listing in filters
 
 ### UI/UX
-- ✅ Diseño responsive con Bootstrap 5
-- ✅ Página principal estilo e-commerce moderno
-- ✅ Hero section con call-to-action
-- ✅ Grid de categorías
-- ✅ Productos destacados
-- ✅ Notificaciones toast
+- ✅ Responsive design with Bootstrap 5
+- ✅ Modern e-commerce homepage
+- ✅ Hero section with call-to-action
+- ✅ Categories grid
+- ✅ Featured products
+- ✅ Toast notifications
 - ✅ Loading states
-- ✅ Validación de formularios
+- ✅ Form validation
 
-## 📝 Scripts Disponibles
+## 📝 Available Scripts
 
 ```json
 {
@@ -263,30 +256,30 @@ describe('AuthService', () => {
 }
 ```
 
-## 🔒 Seguridad
+## 🔒 Security
 
-- JWT almacenado en `localStorage`
-- Interceptor HTTP para agregar token automáticamente
-- Guards para proteger rutas
-- Roles de usuario (Admin/User)
-- Validación de formularios
-- CORS configurado en backend
+- JWT stored in `localStorage`
+- HTTP interceptor to automatically add token
+- Guards to protect routes
+- User roles (Admin/User)
+- Form validation
+- CORS configured in backend
 
 ## 🐳 Docker
 
-### Build Manual
+### Manual Build
 
 ```bash
-# Desde la raíz del proyecto
+# From project root
 docker build -t ecommerce-frontend .
 
-# Ejecutar contenedor
+# Run container
 docker run -p 8080:8080 ecommerce-frontend
 ```
 
-### Docker Compose (Opcional)
+### Docker Compose (Optional)
 
-Para ejecutar localmente con Docker:
+To run locally with Docker:
 
 ```yaml
 version: '3.8'
@@ -299,37 +292,37 @@ services:
       - NODE_ENV=production
 ```
 
-## 📊 Estado del Proyecto
+## 📊 Project Status
 
-- ✅ Frontend desplegado en Railway
-- ✅ Backend API desplegado en Railway
-- ✅ Base de datos PostgreSQL en Railway
-- ✅ Autenticación JWT funcionando
-- ✅ CRUD completo de productos
-- ✅ Tests unitarios implementados
-- ✅ Diseño moderno de e-commerce
+- ✅ Frontend deployed on Railway
+- ✅ Backend API deployed on Railway
+- ✅ PostgreSQL database on Railway
+- ✅ JWT authentication working
+- ✅ Complete product CRUD
+- ✅ Unit tests implemented
+- ✅ Modern e-commerce design
 - ✅ Responsive design
 
-## 🤝 Contribución
+## 🤝 Contributing
 
-Este es un proyecto de prueba técnica. Para desarrollo:
+This is a technical test project. For development:
 
-1. Fork el repositorio
-2. Crea una rama: `git checkout -b feature/nueva-funcionalidad`
-3. Commit: `git commit -m 'Add nueva funcionalidad'`
-4. Push: `git push origin feature/nueva-funcionalidad`
-5. Abre un Pull Request
+1. Fork the repository
+2. Create a branch: `git checkout -b feature/new-feature`
+3. Commit: `git commit -m 'Add new feature'`
+4. Push: `git push origin feature/new-feature`
+5. Open a Pull Request
 
-## 👨‍💻 Autor
+## 👨‍💻 Author
 
 **Primorod79**
 - GitHub: [@Primorod79](https://github.com/Primorod79)
 - Repository: [TechnicalPrube](https://github.com/Primorod79/TechnicalPrube)
 
-## 📄 Licencia
+## 📄 License
 
-Este proyecto es de código abierto y está disponible bajo la licencia MIT.
+This project is open source and available under the MIT License.
 
 ---
 
-**Nota**: Este proyecto fue desarrollado como una prueba técnica para demostrar habilidades en desarrollo fullstack con Angular, .NET y PostgreSQL, además del despliegue en plataformas cloud como Railway.
+**Note**: This project was developed as a technical test to demonstrate fullstack development skills with Angular, .NET, and PostgreSQL, as well as deployment on cloud platforms like Railway.

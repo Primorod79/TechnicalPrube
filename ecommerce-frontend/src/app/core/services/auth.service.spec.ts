@@ -40,11 +40,13 @@ describe('AuthService', () => {
         user: {
           id: 1,
           email: 'test@example.com',
+          username: 'testuser',
           firstName: 'Test',
           lastName: 'User',
-          role: UserRole.Customer,
+          role: UserRole.User,
           createdAt: new Date()
-        }
+        },
+        expiresIn: 3600
       };
 
       service.login(loginRequest).subscribe(response => {
@@ -81,6 +83,7 @@ describe('AuthService', () => {
     it('should register successfully', () => {
       const registerRequest: RegisterRequest = {
         email: 'newuser@example.com',
+        username: 'newuser',
         password: 'password123',
         firstName: 'New',
         lastName: 'User'
@@ -91,11 +94,13 @@ describe('AuthService', () => {
         user: {
           id: 2,
           email: 'newuser@example.com',
+          username: 'newuser',
           firstName: 'New',
           lastName: 'User',
-          role: UserRole.Customer,
+          role: UserRole.User,
           createdAt: new Date()
-        }
+        },
+        expiresIn: 3600
       };
 
       service.register(registerRequest).subscribe(response => {
@@ -138,6 +143,7 @@ describe('AuthService', () => {
       const adminUser: User = {
         id: 1,
         email: 'admin@test.com',
+        username: 'admin',
         firstName: 'Admin',
         lastName: 'User',
         role: UserRole.Admin,
@@ -153,9 +159,10 @@ describe('AuthService', () => {
       const customerUser: User = {
         id: 2,
         email: 'customer@test.com',
+        username: 'customer',
         firstName: 'Customer',
         lastName: 'User',
-        role: UserRole.Customer,
+        role: UserRole.User,
         createdAt: new Date()
       };
       localStorage.setItem('currentUser', JSON.stringify(customerUser));

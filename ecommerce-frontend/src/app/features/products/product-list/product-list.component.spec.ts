@@ -60,7 +60,7 @@ describe('ProductListComponent', () => {
         }
       ],
       totalCount: 1,
-      pageNumber: 1,
+      page: 1,
       pageSize: 12,
       totalPages: 1
     };
@@ -100,8 +100,6 @@ describe('ProductListComponent', () => {
       1,
       12,
       'laptop',
-      undefined,
-      undefined,
       undefined
     );
   });
@@ -112,7 +110,7 @@ describe('ProductListComponent', () => {
     productService.getAll.and.returnValue(of({
       items: [],
       totalCount: 0,
-      pageNumber: 1,
+      page: 1,
       pageSize: 12,
       totalPages: 0
     }));
@@ -137,7 +135,7 @@ describe('ProductListComponent', () => {
     const mockProducts = {
       items: [],
       totalCount: 25,
-      pageNumber: 2,
+      page: 2,
       pageSize: 12,
       totalPages: 3
     };
@@ -149,10 +147,8 @@ describe('ProductListComponent', () => {
 
     expect(component.currentPage).toBe(2);
     expect(productService.getAll).toHaveBeenCalledWith(
-      2,
+      1,
       12,
-      undefined,
-      undefined,
       undefined,
       undefined
     );

@@ -44,7 +44,7 @@ describe('ProductService', () => {
           }
         ],
         totalCount: 1,
-        pageNumber: 1,
+        page: 1,
         pageSize: 10,
         totalPages: 1
       };
@@ -66,12 +66,12 @@ describe('ProductService', () => {
       const mockResponse: PaginatedProducts = {
         items: [],
         totalCount: 0,
-        pageNumber: 1,
+        page: 1,
         pageSize: 10,
         totalPages: 0
       };
 
-      service.getAll(1, 10, 'laptop', 1, 100, 1000).subscribe();
+      service.getAll(1, 10, 'laptop', 1).subscribe();
 
       const req = httpMock.expectOne(request => request.url.includes(apiUrl));
       expect(req.request.params.get('search')).toBe('laptop');
@@ -150,7 +150,11 @@ describe('ProductService', () => {
 
       const mockProduct: Product = {
         id: 1,
-        ...updateRequest,
+        name: updateRequest.name!,
+        description: updateRequest.description,
+        price: updateRequest.price!,
+        stock: updateRequest.stock!,
+        categoryId: updateRequest.categoryId,
         category: { id: 1, name: 'Category 1', description: 'Desc 1', createdAt: new Date() },
         createdAt: new Date(),
         updatedAt: new Date()

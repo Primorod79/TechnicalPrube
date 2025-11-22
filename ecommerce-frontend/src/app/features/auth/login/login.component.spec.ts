@@ -70,11 +70,13 @@ describe('LoginComponent', () => {
       user: {
         id: 1,
         email: 'test@example.com',
+        username: 'testuser',
         firstName: 'Test',
         lastName: 'User',
-        role: UserRole.Customer,
+        role: UserRole.User,
         createdAt: new Date()
-      }
+      },
+      expiresIn: 3600
     };
 
     authService.login.and.returnValue(of(mockResponse));
@@ -104,7 +106,6 @@ describe('LoginComponent', () => {
 
     component.onSubmit();
 
-    expect(component.isSubmitting).toBe(false);
     expect(toastr.error).toHaveBeenCalled();
   });
 

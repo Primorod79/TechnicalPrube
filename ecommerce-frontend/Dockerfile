@@ -7,18 +7,19 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm ci
+RUN npm ci --legacy-peer-deps
 
 # Copy source code
 COPY . .
 
 # Build the app for production
-RUN npm run build -- --configuration=production
+RUN npm run build
 
 # Stage 2: Serve with Nginx
 FROM nginx:alpine
 
 # Copy built app from build stage
+# Angular 18+ outputs to dist/ecommerce-frontend/browser
 COPY --from=build /app/dist/ecommerce-frontend/browser /usr/share/nginx/html
 
 # Copy custom nginx config

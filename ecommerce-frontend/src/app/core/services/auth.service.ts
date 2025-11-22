@@ -36,38 +36,28 @@ export class AuthService {
     return this.currentUserValue?.role === 'Admin';
   }
 
-  login(credentials: LoginRequest): Observable<AuthResponse> {
+  login(credentials: LoginRequest): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/auth/login`, credentials)
       .pipe(
         tap(response => {
           console.log('Login response:', response);
           
-          // Handle the actual backend response structure
-          if (response.success && response.data && response.data.token) {
-            const token = response.data.token;
+          // Handle the backend response structure: {success, data: {token, user}}
+          if (response.success && response.data) {
+            const { token, user } = response.data;
             
-            // Decode JWT to get user info
-            try {
-              const payload = JSON.parse(atob(token.split('.')[1]));
-              console.log('JWT payload:', payload);
-              
-              // Create user object from JWT payload
-              const user: User = {
-                id: parseInt(payload.nameid) || 0,
-                email: payload.email || '',
-                username: payload.unique_name || payload.email || '',
-                role: payload.role || 'User'
-              };
-              
+            if (token && user) {
               localStorage.setItem('token', token);
               localStorage.setItem('currentUser', JSON.stringify(user));
               this.currentUserSubject.next(user);
               
               console.log('User set:', user);
               console.log('Token stored:', !!localStorage.getItem('token'));
-            } catch (error) {
-              console.error('Error decoding JWT:', error);
+            } else {
+              console.error('Missing token or user in response.data');
             }
+          } else {
+            console.error('Invalid response structure:', response);
           }
         })
       );
@@ -77,23 +67,13 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/auth/register`, userData)
       .pipe(
         tap(response => {
-          if (response.success && response.data && response.data.token) {
-            const token = response.data.token;
+          if (response.success && response.data) {
+            const { token, user } = response.data;
             
-            try {
-              const payload = JSON.parse(atob(token.split('.')[1]));
-              const user: User = {
-                id: parseInt(payload.nameid) || 0,
-                email: payload.email || '',
-                username: payload.unique_name || payload.email || '',
-                role: payload.role || 'User'
-              };
-              
+            if (token && user) {
               localStorage.setItem('token', token);
               localStorage.setItem('currentUser', JSON.stringify(user));
               this.currentUserSubject.next(user);
-            } catch (error) {
-              console.error('Error decoding JWT:', error);
             }
           }
         })

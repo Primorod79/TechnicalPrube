@@ -28,7 +28,7 @@ export class ProductDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.isAdmin = this.authService.isAdmin();
+    this.isAdmin = this.authService.isAdmin;
     
     this.route.params.subscribe(params => {
       const id = +params['id'];
@@ -45,7 +45,7 @@ export class ProductDetailComponent implements OnInit {
     this.isLoading = true;
     this.productService.getById(id).subscribe({
       next: (response) => {
-        this.product = response.data;
+        this.product = response;
         this.isLoading = false;
       },
       error: (error) => {

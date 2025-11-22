@@ -55,7 +55,7 @@ export class ProductFormComponent implements OnInit {
   loadCategories(): void {
     this.categoryService.getAll().subscribe({
       next: (response) => {
-        this.categories = response.data;
+        this.categories = response;
       },
       error: (error) => {
         this.toastr.error('Error loading categories', 'Error');
@@ -66,7 +66,7 @@ export class ProductFormComponent implements OnInit {
   loadProduct(id: number): void {
     this.productService.getById(id).subscribe({
       next: (response) => {
-        const product = response.data;
+        const product = response;
         this.productForm.patchValue({
           name: product.name,
           description: product.description,

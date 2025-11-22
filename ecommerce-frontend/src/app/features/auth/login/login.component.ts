@@ -40,18 +40,20 @@ export class LoginComponent {
     this.loading = true;
     this.authService.login(this.loginForm.value).subscribe({
       next: (response) => {
-        this.loading = false;
         this.toastr.success('Login successful!', 'Success');
+        this.loading = false;
         
         // Redirect based on user role
-        if (this.authService.isAdmin) {
-          this.router.navigate(['/products']); // Admin goes to product management
-        } else {
-          this.router.navigate(['/']); // Regular user goes to home/shopping
-        }
+        setTimeout(() => {
+          if (this.authService.isAdmin) {
+            this.router.navigate(['/products']);
+          } else {
+            this.router.navigate(['/']);
+          }
+        }, 500);
       },
       error: (error) => {
-        this.toastr.error(error.message || 'Login failed', 'Error');
+        this.toastr.error(error.error?.message || error.message || 'Login failed', 'Error');
         this.loading = false;
       }
     });

@@ -147,9 +147,9 @@ describe('ProductListComponent', () => {
 
     expect(component.currentPage).toBe(2);
     expect(productService.getAll).toHaveBeenCalledWith(
-      1,
+      2,
       12,
-      undefined,
+      '',
       undefined
     );
   });

@@ -129,8 +129,13 @@ describe('AuthService', () => {
 
   describe('isAuthenticated', () => {
     it('should return true when token exists', () => {
-      localStorage.setItem('token', 'test-token');
-      expect(service.isAuthenticated).toBe(true);
+      const token = 'test-token';
+      localStorage.setItem('token', token);
+      
+      // Need to create a new instance to pick up the localStorage value
+      const newService = new AuthService(httpMock);
+      
+      expect(newService.isAuthenticated).toBe(true);
     });
 
     it('should return false when token does not exist', () => {

@@ -27,8 +27,9 @@ describe('authGuard', () => {
   it('should allow access when user is authenticated', () => {
     Object.defineProperty(authService, 'isAuthenticated', { get: () => true });
 
+    const mockRoute: any = { data: {} };
     const result = TestBed.runInInjectionContext(() => 
-      authGuard({} as any, {} as any)
+      authGuard(mockRoute, {} as any)
     );
 
     expect(result).toBe(true);
@@ -38,11 +39,12 @@ describe('authGuard', () => {
   it('should redirect to login when user is not authenticated', () => {
     Object.defineProperty(authService, 'isAuthenticated', { get: () => false });
 
+    const mockState: any = { url: '/products' };
     const result = TestBed.runInInjectionContext(() => 
-      authGuard({} as any, {} as any)
+      authGuard({} as any, mockState)
     );
 
     expect(result).toBe(false);
-    expect(router.navigate).toHaveBeenCalledWith(['/auth/login']);
+    expect(router.navigate).toHaveBeenCalledWith(['/auth/login'], { queryParams: { returnUrl: '/products' } });
   });
 });

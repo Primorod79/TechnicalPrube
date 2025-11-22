@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { ProductService } from '../../core/services/product.service';
-import { CategoryService } from '../../core/services/category.service';
-import { Product, Category } from '../../models';
+import { Category } from '../../models';
 
 @Component({
   selector: 'app-home',
@@ -13,39 +11,21 @@ import { Product, Category } from '../../models';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit {
-  featuredProducts: Product[] = [];
   categories: Category[] = [];
   loading = true;
 
-  constructor(
-    private productService: ProductService,
-    private categoryService: CategoryService
-  ) {}
+  constructor() {}
 
   ngOnInit(): void {
-    this.loadCategories();
-    this.loadFeaturedProducts();
-  }
-
-  loadCategories(): void {
-    this.categoryService.getAll().subscribe({
-      next: (categories) => {
-        this.categories = categories.slice(0, 4); // Top 4 categories
-      },
-      error: (error) => console.error('Error loading categories', error)
-    });
-  }
-
-  loadFeaturedProducts(): void {
-    this.productService.getAll(1, 8).subscribe({
-      next: (response) => {
-        this.featuredProducts = response.items;
-        this.loading = false;
-      },
-      error: (error) => {
-        console.error('Error loading products', error);
-        this.loading = false;
-      }
-    });
+    // Don't load data on home - it's a public landing page
+    this.loading = false;
+    
+    // Mock categories for display
+    this.categories = [
+      { id: 1, name: 'Electronics', description: 'Latest tech gadgets' },
+      { id: 2, name: 'Fashion', description: 'Trendy clothing' },
+      { id: 3, name: 'Home & Garden', description: 'Home essentials' },
+      { id: 4, name: 'Sports', description: 'Sports equipment' }
+    ];
   }
 }

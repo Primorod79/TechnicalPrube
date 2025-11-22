@@ -107,4 +107,9 @@ export class ProductListComponent implements OnInit {
   get pages(): number[] {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
+
+  // Helper para el template
+  get Math() {
+    return Math;
+  }
 }

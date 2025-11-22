@@ -92,16 +92,58 @@
               </div>
             </div>
 
-            <!-- Image URL -->
+            <!-- Image Upload or URL -->
             <div class="mb-3">
-              <label for="imageUrl" class="form-label">Image URL</label>
-              <input 
-                type="url" 
-                class="form-control" 
-                id="imageUrl" 
-                formControlName="imageUrl"
-                placeholder="https://example.com/image.jpg">
-              <small class="form-text text-muted">Optional: Enter a URL for the product image</small>
+              <label class="form-label">Product Image</label>
+              <div class="card">
+                <div class="card-body">
+                  <!-- File Upload -->
+                  <div class="mb-3">
+                    <label for="imageFile" class="form-label">Upload Image</label>
+                    <input 
+                      type="file" 
+                      class="form-control" 
+                      id="imageFile"
+                      accept="image/*"
+                      (change)="onFileSelected($event)">
+                    <small class="text-muted">Maximum size: 5MB. Accepted formats: JPG, PNG, GIF</small>
+                  </div>
+
+                  <!-- Image Preview -->
+                  <div *ngIf="imagePreview || productForm.value.imageUrl" class="text-center mb-3">
+                    <img 
+                      [src]="imagePreview || productForm.value.imageUrl" 
+                      alt="Product preview" 
+                      class="img-thumbnail"
+                      style="max-height: 200px;">
+                    <div class="mt-2">
+                      <button 
+                        type="button" 
+                        class="btn btn-sm btn-danger"
+                        (click)="removeImage()">
+                        <i class="bi bi-trash"></i> Remove Image
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- OR separator -->
+                  <div class="text-center my-3">
+                    <span class="text-muted">OR</span>
+                  </div>
+
+                  <!-- Image URL -->
+                  <div>
+                    <label for="imageUrl" class="form-label">Image URL</label>
+                    <input 
+                      type="url" 
+                      class="form-control" 
+                      id="imageUrl" 
+                      formControlName="imageUrl"
+                      placeholder="https://example.com/image.jpg">
+                    <small class="text-muted">Enter a URL if you don't want to upload a file</small>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <!-- Buttons -->

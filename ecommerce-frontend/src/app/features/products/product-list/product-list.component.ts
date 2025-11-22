@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../../core/services/product.service';
 import { CategoryService } from '../../../core/services/category.service';
 import { AuthService } from '../../../core/services/auth.service';
+import { CartService } from '../../../core/services/cart.service';
 import { Product, Category } from '../../../models';
 import { ToastrService } from 'ngx-toastr';
 
@@ -31,6 +32,7 @@ export class ProductListComponent implements OnInit {
   constructor(
     private readonly productService: ProductService,
     private readonly categoryService: CategoryService,
+    private readonly cartService: CartService,
     public readonly authService: AuthService,
     private readonly toastr: ToastrService
   ) {}
@@ -111,5 +113,10 @@ export class ProductListComponent implements OnInit {
   // Helper para el template
   get Math() {
     return Math;
+  }
+
+  addToCart(product: Product): void {
+    this.cartService.addToCart(product, 1);
+    this.toastr.success(`${product.name} added to cart!`, 'Success');
   }
 }

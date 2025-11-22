@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
+import { CartService } from '../../../core/services/cart.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,12 +14,15 @@ import { AuthService } from '../../../core/services/auth.service';
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   private userSubscription?: Subscription;
+  private cartSubscription?: Subscription;
   isAuthenticated = false;
   isAdmin = false;
   username = '';
+  cartItemCount = 0;
 
   constructor(
     public readonly authService: AuthService,
+    private readonly cartService: CartService,
     private readonly router: Router,
     private readonly cdr: ChangeDetectorRef
   ) {}
@@ -33,10 +37,18 @@ export class NavbarComponent implements OnInit, OnDestroy {
       console.log('Navbar - isAuthenticated:', this.isAuthenticated, 'isAdmin:', this.isAdmin);
       this.cdr.detectChanges();
     });
+
+    // Subscribe to cart changes
+    this.cartSubscription = this.cartService.cartItems$.subscribe(() => {
+      const cart = this.cartService.getCart();
+      this.cartItemCount = cart.totalItems;
+      this.cdr.detectChanges();
+    });
   }
 
   ngOnDestroy(): void {
     this.userSubscription?.unsubscribe();
+    this.cartSubscription?.unsubscribe();
   }
 
   logout(): void {

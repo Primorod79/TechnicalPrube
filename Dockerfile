@@ -6,8 +6,8 @@ WORKDIR /app
 # Copy package files from ecommerce-frontend folder
 COPY ecommerce-frontend/package*.json ./
 
-# Install dependencies
-RUN npm ci
+# Install dependencies (use npm install instead of npm ci)
+RUN npm install
 
 # Copy source code from ecommerce-frontend folder
 COPY ecommerce-frontend/ ./

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { Category, CreateCategoryRequest, UpdateCategoryRequest } from '../../models';
 
@@ -13,19 +14,27 @@ export class CategoryService {
   constructor(private readonly http: HttpClient) { }
 
   getAll(): Observable<Category[]> {
-    return this.http.get<Category[]>(this.apiUrl);
+    return this.http.get<any>(this.apiUrl).pipe(
+      map(response => response.data || response)
+    );
   }
 
   getById(id: number): Observable<Category> {
-    return this.http.get<Category>(`${this.apiUrl}/${id}`);
+    return this.http.get<any>(`${this.apiUrl}/${id}`).pipe(
+      map(response => response.data || response)
+    );
   }
 
   create(category: CreateCategoryRequest): Observable<Category> {
-    return this.http.post<Category>(this.apiUrl, category);
+    return this.http.post<any>(this.apiUrl, category).pipe(
+      map(response => response.data || response)
+    );
   }
 
   update(id: number, category: UpdateCategoryRequest): Observable<Category> {
-    return this.http.put<Category>(`${this.apiUrl}/${id}`, category);
+    return this.http.put<any>(`${this.apiUrl}/${id}`, category).pipe(
+      map(response => response.data || response)
+    );
   }
 
   delete(id: number): Observable<void> {

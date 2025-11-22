@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import {
   Product,
@@ -30,23 +31,33 @@ export class ProductService {
       params = params.set('categoryId', categoryId.toString());
     }
 
-    return this.http.get<PaginatedProducts>(this.apiUrl, { params });
+    return this.http.get<any>(this.apiUrl, { params }).pipe(
+      map(response => response.data || response)
+    );
   }
 
   getById(id: number): Observable<Product> {
-    return this.http.get<Product>(`${this.apiUrl}/${id}`);
+    return this.http.get<any>(`${this.apiUrl}/${id}`).pipe(
+      map(response => response.data || response)
+    );
   }
 
   getByCategory(categoryId: number): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.apiUrl}/category/${categoryId}`);
+    return this.http.get<any>(`${this.apiUrl}/category/${categoryId}`).pipe(
+      map(response => response.data || response)
+    );
   }
 
   create(product: CreateProductRequest): Observable<Product> {
-    return this.http.post<Product>(this.apiUrl, product);
+    return this.http.post<any>(this.apiUrl, product).pipe(
+      map(response => response.data || response)
+    );
   }
 
   update(id: number, product: UpdateProductRequest): Observable<Product> {
-    return this.http.put<Product>(`${this.apiUrl}/${id}`, product);
+    return this.http.put<any>(`${this.apiUrl}/${id}`, product).pipe(
+      map(response => response.data || response)
+    );
   }
 
   delete(id: number): Observable<void> {

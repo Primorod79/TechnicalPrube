@@ -1,0 +1,11 @@
+ecommerce-frontend/node_modules
+ecommerce-frontend/dist
+.git
+.gitignore
+.editorconfig
+.vscode
+*.md
+ecommerce-frontend/.angular
+ecommerce-frontend/.cache
+ecommerce-frontend/coverage
+ecommerce-frontend/e2e

@@ -37,29 +37,64 @@ export class AuthService {
   }
 
   login(credentials: LoginRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/auth/login`, credentials)
+    return this.http.post<any>(`${this.apiUrl}/auth/login`, credentials)
       .pipe(
         tap(response => {
           console.log('Login response:', response);
-          if (response.token && response.user) {
-            localStorage.setItem('token', response.token);
-            localStorage.setItem('currentUser', JSON.stringify(response.user));
-            this.currentUserSubject.next(response.user);
-            console.log('User set:', response.user);
-            console.log('Token stored:', !!localStorage.getItem('token'));
+          
+          // Handle the actual backend response structure
+          if (response.success && response.data && response.data.token) {
+            const token = response.data.token;
+            
+            // Decode JWT to get user info
+            try {
+              const payload = JSON.parse(atob(token.split('.')[1]));
+              console.log('JWT payload:', payload);
+              
+              // Create user object from JWT payload
+              const user: User = {
+                id: parseInt(payload.nameid) || 0,
+                email: payload.email || '',
+                username: payload.unique_name || payload.email || '',
+                role: payload.role || 'User'
+              };
+              
+              localStorage.setItem('token', token);
+              localStorage.setItem('currentUser', JSON.stringify(user));
+              this.currentUserSubject.next(user);
+              
+              console.log('User set:', user);
+              console.log('Token stored:', !!localStorage.getItem('token'));
+            } catch (error) {
+              console.error('Error decoding JWT:', error);
+            }
           }
         })
       );
   }
 
-  register(userData: RegisterRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/auth/register`, userData)
+  register(userData: RegisterRequest): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/register`, userData)
       .pipe(
         tap(response => {
-          if (response.token && response.user) {
-            localStorage.setItem('token', response.token);
-            localStorage.setItem('currentUser', JSON.stringify(response.user));
-            this.currentUserSubject.next(response.user);
+          if (response.success && response.data && response.data.token) {
+            const token = response.data.token;
+            
+            try {
+              const payload = JSON.parse(atob(token.split('.')[1]));
+              const user: User = {
+                id: parseInt(payload.nameid) || 0,
+                email: payload.email || '',
+                username: payload.unique_name || payload.email || '',
+                role: payload.role || 'User'
+              };
+              
+              localStorage.setItem('token', token);
+              localStorage.setItem('currentUser', JSON.stringify(user));
+              this.currentUserSubject.next(user);
+            } catch (error) {
+              console.error('Error decoding JWT:', error);
+            }
           }
         })
       );
